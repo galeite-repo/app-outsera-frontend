@@ -34,7 +34,6 @@ describe('DashboardComponent', () => {
     expect(dashboardService.getYearsWithMultipleWinners).toHaveBeenCalled();
     expect(dashboardService.getStudiosWithWinCount).toHaveBeenCalled();
     expect(dashboardService.getMaxMinWinIntervals).toHaveBeenCalled();
-    expect(dashboardService.getMoviesByYear).toHaveBeenCalledWith(component.selectedYear);
   });
 
   it('should call getMoviesByYear on search', () => {

@@ -1,7 +1,7 @@
 import { NgFor, NgIf } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NavbarComponent } from "../../layout/navbar/navbar.component";
+
 import { MovieService } from './movies.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { MovieService } from './movies.service';
   standalone: true,
   templateUrl: './movies.component.html',
   styleUrls: ['./movies.component.css'],
-  imports: [NavbarComponent, NgIf, NgFor, FormsModule]
+  imports: [NgIf, NgFor, FormsModule]
 })
 export class MoviesComponent implements OnInit {
   movieService = inject(MovieService);
