@@ -1,0 +1,188 @@
+<section class="bg-gray-50 dark:bg-gray-900 min-h-screen p-6">
+  <app-navbar></app-navbar>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+
+    <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg p-4">
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+        List years with multiple winners
+      </h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+          <thead *ngIf="!dashboardService.stateYearWinner().loading && !dashboardService.stateYearWinner().error"
+                 class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th class="px-4 py-2">Year</th>
+              <th class="px-4 py-2">Win Count</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="dashboardService.stateYearWinner().loading">
+              <td class="px-6 py-4 text-center" colspan="2">Carregando, aguarde...</td>
+            </tr>
+            <tr *ngIf="dashboardService.stateYearWinner().error">
+              <td class="px-6 py-4 text-center" colspan="2">Algo deu errado...</td>
+            </tr>
+
+            <ng-container *ngIf="!dashboardService.stateYearWinner().loading && !dashboardService.stateYearWinner().error">
+              <tr *ngFor="let year of dashboardService.stateYearWinner().years" class="border-b dark:border-gray-700">
+                <td class="px-4 py-2">{{ year.year }}</td>
+                <td class="px-4 py-2">{{ year.winnerCount }}</td>
+              </tr>
+              <tr *ngIf="!dashboardService.stateYearWinner().years?.length">
+                <td class="px-6 py-4 text-center" colspan="2">Nenhum registro encontrado</td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg p-4">
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+        Top 3 studios with winners
+      </h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+          <thead *ngIf="!dashboardService.stateStudiosWinCount().loading && !dashboardService.stateStudiosWinCount().error"
+                 class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th class="px-4 py-2">Name</th>
+              <th class="px-4 py-2">Win Count</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="dashboardService.stateStudiosWinCount().loading">
+              <td class="px-6 py-4 text-center" colspan="2">Carregando, aguarde...</td>
+            </tr>
+            <tr *ngIf="dashboardService.stateStudiosWinCount().error">
+              <td class="px-6 py-4 text-center" colspan="2">Algo deu errado...</td>
+            </tr>
+
+            <ng-container *ngIf="!dashboardService.stateStudiosWinCount().loading && !dashboardService.stateStudiosWinCount().error">
+              <tr *ngFor="let studio of dashboardService.stateStudiosWinCount().studios" class="border-b dark:border-gray-700">
+                <td class="px-4 py-2">{{ studio.name }}</td>
+                <td class="px-4 py-2">{{ studio.winCount }}</td>
+              </tr>
+              <tr *ngIf="!dashboardService.stateStudiosWinCount().studios?.length">
+                <td class="px-6 py-4 text-center" colspan="2">Nenhum registro encontrado</td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+     <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg p-4 col-span-1 md:col-span-2">
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+        Producers with longest and shortest interval between wins
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+
+        <div>
+          <h3 class="font-medium text-gray-700 dark:text-gray-300 mb-2">Maximum</h3>
+          <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                <th class="px-4 py-2">Producer</th>
+                <th class="px-4 py-2">Interval</th>
+                <th class="px-4 py-2">Previous Year</th>
+                <th class="px-4 py-2">Following Year</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngIf="dashboardService.stateMaxMinInterval().max?.length; else maxEmpty">
+                <tr *ngFor="let item of dashboardService.stateMaxMinInterval().max">
+                  <td class="px-4 py-2">{{ item.producer }}</td>
+                  <td class="px-4 py-2">{{ item.interval }}</td>
+                  <td class="px-4 py-2">{{ item.previousWin }}</td>
+                  <td class="px-4 py-2">{{ item.followingWin }}</td>
+                </tr>
+              </ng-container>
+              <ng-template #maxEmpty>
+                <tr>
+                  <td class="px-6 py-4 text-center" colspan="4">Nenhum registro encontrado</td>
+                </tr>
+              </ng-template>
+            </tbody>
+          </table>
+        </div>
+
+        <div>
+          <h3 class="font-medium text-gray-700 dark:text-gray-300 mb-2">Minimum</h3>
+          <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                <th class="px-4 py-2">Producer</th>
+                <th class="px-4 py-2">Interval</th>
+                <th class="px-4 py-2">Previous Year</th>
+                <th class="px-4 py-2">Following Year</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngIf="dashboardService.stateMaxMinInterval().min?.length; else minEmpty">
+                <tr *ngFor="let item of dashboardService.stateMaxMinInterval().min">
+                  <td class="px-4 py-2">{{ item.producer }}</td>
+                  <td class="px-4 py-2">{{ item.interval }}</td>
+                  <td class="px-4 py-2">{{ item.previousWin }}</td>
+                  <td class="px-4 py-2">{{ item.followingWin }}</td>
+                </tr>
+              </ng-container>
+              <ng-template #minEmpty>
+                <tr>
+                  <td class="px-6 py-4 text-center" colspan="4">Nenhum registro encontrado</td>
+                </tr>
+              </ng-template>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+
+     <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg p-4 col-span-1 md:col-span-2">
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+        List movie winners by year
+      </h2>
+      <div class="flex mb-3">
+        <input type="number" id="year" name="year" placeholder="Search by year" [(ngModel)]="selectedYear"
+               class="flex-1 p-2 border rounded-l-md dark:bg-gray-700 dark:text-white" />
+        <button class="bg-blue-600 text-white px-4 rounded-r-md" (click)="onSearch()">Find</button>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+          <thead *ngIf="!dashboardService.stateWinnersByYear().loading && !dashboardService.stateWinnersByYear().error"
+                 class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th class="px-4 py-2">Id</th>
+              <th class="px-4 py-2">Year</th>
+              <th class="px-4 py-2">Title</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="dashboardService.stateWinnersByYear().loading">
+              <td class="px-6 py-4 text-center" colspan="3">Carregando, aguarde...</td>
+            </tr>
+            <tr *ngIf="dashboardService.stateWinnersByYear().error">
+              <td class="px-6 py-4 text-center" colspan="3">Algo deu errado...</td>
+            </tr>
+
+            <ng-container *ngIf="!dashboardService.stateWinnersByYear().loading && !dashboardService.stateWinnersByYear().error">
+              <tr *ngFor="let movie of dashboardService.stateWinnersByYear().movies" class="border-b dark:border-gray-700">
+
+                <td class="px-4 py-2">{{ movie.id }}</td>
+                <td class="px-4 py-2">{{ movie.year }}</td>
+                <td class="px-4 py-2">{{ movie.title }}</td>
+              </tr>
+              <tr *ngIf="!dashboardService.stateWinnersByYear().movies?.length">
+                <td class="px-6 py-4 text-center" colspan="3">Nenhum registro encontrado</td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</section>

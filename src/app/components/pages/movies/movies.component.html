@@ -1,0 +1,118 @@
+<section class="bg-gray-50 dark:bg-gray-900 min-h-screen p-6">
+  <app-navbar></app-navbar>
+
+  <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg p-4 mt-6">
+    <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+      List Movies
+    </h2>
+
+    <div class="flex flex-col md:flex-row md:items-end md:space-x-6 mb-6">
+      <div class="flex flex-col mb-2 md:mb-0">
+        <label for="yearFilter" class="mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">
+          Year
+        </label>
+        <input id="yearFilter" type="number" placeholder="Enter year" [(ngModel)]="filterYear"
+          class="p-2 border rounded-md dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      </div>
+
+
+      <div class="flex flex-col mb-2 md:mb-0">
+        <label for="winnerFilter" class="mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">
+          Winner
+        </label>
+        <select id="winnerFilter" [(ngModel)]="filterWinner"
+          class="p-2 border rounded-md dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="">Yes/No</option>
+          <option value="true">Yes</option>
+          <option value="false">No</option>
+        </select>
+      </div>
+
+      <div class="flex flex-col">
+        <button class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
+          (click)="applyFilters()">
+          Apply
+        </button>
+      </div>
+    </div>
+
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead *ngIf="!movieService.state().loading && !movieService.state().error"
+          class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr>
+            <th class="px-4 py-2">ID</th>
+            <th class="px-4 py-2">Year</th>
+            <th class="px-4 py-2">Title</th>
+            <th class="px-4 py-2">Winner?</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr *ngIf="movieService.state().loading">
+            <td colspan="4" class="px-6 py-4 text-center">Carregando, aguarde...</td>
+          </tr>
+
+
+          <tr *ngIf="movieService.state().error">
+            <td colspan="4" class="px-6 py-4 text-center">Algo deu errado...</td>
+          </tr>
+
+
+          <ng-container *ngIf="!movieService.state().loading && !movieService.state().error">
+            <tr *ngFor="let movie of movieService.state().movies" class="border-b dark:border-gray-700">
+              <td class="px-4 py-2">{{ movie.id }}</td>
+              <td class="px-4 py-2">{{ movie.year }}</td>
+              <td class="px-4 py-2">{{ movie.title }}</td>
+              <td class="px-4 py-2">{{ movie.winner ? 'Yes' : 'No' }}</td>
+            </tr>
+
+
+            <tr *ngIf="!movieService.state().movies?.length">
+              <td colspan="4" class="px-6 py-4 text-center">Nenhum registro encontrado</td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+
+
+    <nav class="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4" aria-label="Table navigation"
+      *ngIf="movieService.state().totalPages > 1">
+      <span class="text-sm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto">
+        Showing <span class="font-semibold text-gray-900 dark:text-white">{{ currentPage * pageSize + 1 }}-{{
+          (currentPage + 1) * pageSize > movieService.state().totalElements ? movieService.state().totalElements :
+          (currentPage + 1) * pageSize }}</span> of
+        <span class="font-semibold text-gray-900 dark:text-white">{{ movieService.state().totalElements }}</span>
+      </span>
+      <ul class="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
+        <li>
+          <a href="#" (click)="goToPage(currentPage - 1); $event.preventDefault()"
+            [class.pointer-events-none]="currentPage === 0"
+            class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+            Previous
+          </a>
+        </li>
+
+        <li *ngFor="let page of [].constructor(movieService.state().totalPages); let i = index">
+          <a href="#" (click)="goToPage(i); $event.preventDefault()" [class.text-blue-600]="currentPage === i"
+            [class.bg-blue-50]="currentPage === i" [class.hover:bg-blue-100]="currentPage === i"
+            [class.dark:bg-gray-700]="currentPage === i" [class.dark:text-white]="currentPage === i"
+            class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+            {{ i + 1 }}
+          </a>
+        </li>
+
+        <li>
+          <a href="#" (click)="goToPage(currentPage + 1); $event.preventDefault()"
+            [class.pointer-events-none]="currentPage === movieService.state().totalPages - 1"
+            class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+            Next
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+  </div>
+</section>
