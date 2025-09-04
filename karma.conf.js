@@ -11,9 +11,8 @@ module.exports = function (config) {
     ],
     client: {
       jasmine: {
-        // você pode configurar opções globais do Jasmine aqui
       },
-      clearContext: false // deixa os resultados visíveis no navegador
+      clearContext: false
     },
     coverageReporter: {
       dir: require('path').join(__dirname, './coverage'),
@@ -23,13 +22,13 @@ module.exports = function (config) {
         { type: 'text-summary' }
       ]
     },
-    reporters: ['progress', 'kjhtml'], // progress no terminal, kjhtml no navegador
+    reporters: ['progress', 'kjhtml'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
-    autoWatch: true, // observa mudanças no código e roda testes automaticamente
-    browsers: ['ChromeHeadless'], // você pode usar 'Chrome' ou 'ChromeHeadless'
-    singleRun: false, // se true, roda uma vez e finaliza (bom para CI)
+    autoWatch: true,
+    browsers: ['ChromeHeadless'], 
+    singleRun: false,
     restartOnFileChange: true
   });
 };

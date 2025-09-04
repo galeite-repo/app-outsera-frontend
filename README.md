@@ -9,7 +9,7 @@ Frontend em **Angular 17.3** com **TailwindCSS** e **Flowbite**, consumindo a AP
 
 ---
 
-## 📦 Tecnologias
+## Tecnologias
 
 * Angular 17.3
 * TailwindCSS 3.4
@@ -20,7 +20,7 @@ Frontend em **Angular 17.3** com **TailwindCSS** e **Flowbite**, consumindo a AP
 
 ---
 
-## 🚀 Scripts
+## Scripts
 
 | Comando         | Descrição                                           |
 | --------------- | --------------------------------------------------- |
@@ -31,7 +31,7 @@ Frontend em **Angular 17.3** com **TailwindCSS** e **Flowbite**, consumindo a AP
 
 ---
 
-## ⚙️ Instalação
+## Instalação
 
 1. Clone o repositório:
 
@@ -65,7 +65,7 @@ Abra no navegador: `http://localhost:4200`
 
 ---
 
-## 🧪 Testes Unitários
+## Testes Unitários
 
 Executa todos os testes com **Karma + Jasmine**:
 
@@ -81,7 +81,7 @@ Os testes incluem:
 
 ---
 
-## 📂 Estrutura do Projeto
+## Estrutura do Projeto
 
 ```
 src/app/components
@@ -100,7 +100,7 @@ src/app/components
 
 ---
 
-## 🌟 Funcionalidades
+## Funcionalidades
 
 * Consumo de API externa de filmes
 * Filtros por ano e vencedor
@@ -111,7 +111,7 @@ src/app/components
 
 ---
 
-## 📖 Referências
+## Referências
 
 * [Angular Official Docs](https://angular.io/docs)
 * [TailwindCSS](https://tailwindcss.com/docs)
@@ -120,7 +120,7 @@ src/app/components
 
 ---
 
-## ⚠️ Observações
+## Observações
 
 * Angular 17.3 com **standalone components**
 * Serviços usam **RxJS + Signals**
@@ -128,6 +128,6 @@ src/app/components
 
 ---
 
-## 📝 Licença
+## Licença
 
 MIT License © Gabriel Leite
